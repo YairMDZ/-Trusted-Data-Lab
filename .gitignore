@@ -1,0 +1,29 @@
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+
+# Variables de entorno y credenciales sensibles (NUNCA incluir tokens reales)
+.env
+*.env
+!*.example
+
+# Cachés y temporales de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos de configuración de IDEs y sistemas operativos
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IMPORTANTE: datos/bronce/ NO se ignora según especificación del observatorio
+!datos/bronce/

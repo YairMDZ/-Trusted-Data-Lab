@@ -1,0 +1,62 @@
+name: Captura Automática Bronce
+
+on:
+  schedule:
+    # Ejecución semanal programada: Todos los lunes a las 12:00 UTC
+    - cron: '0 12 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: captura-bronce
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  captura:
+    name: Ingesta Bronce y Control de Calidad
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar Extractor Oficial
+        env:
+          INEGI_API_TOKEN: ${{ secrets.INEGI_API_TOKEN }}
+          BANXICO_API_TOKEN: ${{ secrets.BANXICO_API_TOKEN }}
+        run: |
+          python src/extractor.py
+
+      - name: Validar Integridad de Capa Bronce
+        run: |
+          python src/validar_bronce.py
+
+      - name: Commit y Push de Archivos Nuevos en Bronce
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Agregar únicamente archivos en datos/bronce/
+          git add datos/bronce/
+
+          # Comprobar si hay cambios staged para commitear
+          if ! git diff --staged --quiet; then
+            FECHA_HOY=$(date -u +'%Y-%m-%d')
+            git commit -m "captura automática bronce ${FECHA_HOY}"
+            git push
+          else
+            echo "No hay archivos nuevos en datos/bronce/. No se requiere commit."
+          fi
