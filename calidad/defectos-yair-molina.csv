@@ -1,1 +1,8 @@
 id,fecha,fase_origen,fase_deteccion,tipo,descripcion,minutos_correccion
+D01,2026-11-08,Seleccion de fuentes,Descarga,Datos,"Series INEGI 628xxx (rama legada) terminan en 2024/07 y les falta 2024/06; no sirven para una captura que se actualiza sola",
+D02,2026-11-08,Seleccion de fuentes,Verificacion de metadatos,Documentacion,"Etiquetas de series asignadas por interpretacion (628217 'Refrescos', 628218 'Azucar') cuando eran agregados de otra canasta",
+D03,2026-11-08,Seleccion de fuentes,Verificacion de metadatos,Datos,"Series 7xxxxx miden horas trabajadas y personal ocupado, no precios ni produccion; 704122 constante en 12,498 durante 12 meses",
+D04,2026-11-08,Diseno,Revision del plan,Diseno,"Plan inicial de Antigravity: script de validacion en calidad/ en lugar de src/, dependencia pydantic innecesaria y nombres de variables de entorno inconsistentes",
+D05,2026-11-08,Diseno,Revision del plan,Proceso,"El plan avanzo a construir clientes de API sin hacer antes la revision etica y legal de las fuentes",
+D06,2026-11-08,Seleccion de fuentes,Verificacion de series,Datos,"SP1 de Banxico duplicaba el INPC general de INEGI (910392)",
+D07,2026-11-08,Seleccion de fuentes,Verificacion de series,Documentacion,"910394 etiquetada como 'Alimentos, Bebidas y Tabaco' cuando su nombre oficial es 'Mercancias'",
