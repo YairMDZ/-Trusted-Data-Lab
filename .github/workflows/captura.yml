@@ -54,11 +54,14 @@ jobs:
           # Agregar únicamente archivos en datos/bronce/
           git add datos/bronce/
 
+          # Descartar cualquier cambio residual fuera de datos/bronce/
+          git checkout -- .
+
           # Comprobar si hay cambios staged para commitear
           if ! git diff --staged --quiet; then
             FECHA_HOY=$(date -u +'%Y-%m-%d')
             git commit -m "captura automática bronce ${FECHA_HOY}"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push origin main
           else
             echo "No hay archivos nuevos en datos/bronce/. No se requiere commit."
