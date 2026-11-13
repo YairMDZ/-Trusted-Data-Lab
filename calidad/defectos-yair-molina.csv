@@ -1,8 +1,9 @@
 id,fecha,fase_origen,fase_deteccion,tipo,descripcion,minutos_correccion
-D01,2026-11-08,Seleccion de fuentes,Descarga,Datos,"Series INEGI 628xxx (rama legada) terminan en 2024/07 y les falta 2024/06; no sirven para una captura que se actualiza sola",
-D02,2026-11-08,Seleccion de fuentes,Verificacion de metadatos,Documentacion,"Etiquetas de series asignadas por interpretacion (628217 'Refrescos', 628218 'Azucar') cuando eran agregados de otra canasta",
-D03,2026-11-08,Seleccion de fuentes,Verificacion de metadatos,Datos,"Series 7xxxxx miden horas trabajadas y personal ocupado, no precios ni produccion; 704122 constante en 12,498 durante 12 meses",
-D04,2026-11-08,Diseno,Revision del plan,Diseno,"Plan inicial de Antigravity: script de validacion en calidad/ en lugar de src/, dependencia pydantic innecesaria y nombres de variables de entorno inconsistentes",
-D05,2026-11-08,Diseno,Revision del plan,Proceso,"El plan avanzo a construir clientes de API sin hacer antes la revision etica y legal de las fuentes",
-D06,2026-11-08,Seleccion de fuentes,Verificacion de series,Datos,"SP1 de Banxico duplicaba el INPC general de INEGI (910392)",
-D07,2026-11-08,Seleccion de fuentes,Verificacion de series,Documentacion,"910394 etiquetada como 'Alimentos, Bebidas y Tabaco' cuando su nombre oficial es 'Mercancias'",
+D08,2026-11-12,Desarrollo,Ejecucion pipeline,Codigo,"TypeError en logging de calidad.py al formatear '100%' por caracter '%' no escapado ('100%%') (estimado)",5
+D09,2026-11-12,Desarrollo,Ejecucion nbconvert,Codigo,"SyntaxError: unterminated string literal en limpieza.ipynb por salto de linea crudo dentro de un print() (estimado)",5
+D10,2026-11-12,Diseno,Verificacion de calidad,Datos,"Clasificar N/E de SP74625 (1969-1981) como 'MNAR confirmado' cuando metodologicamente es un faltante estructural por inexistencia institucional de la serie (estimado)",4
+D11,2026-11-12,Diseno,Revision de entrega,Documentacion,"Etiquetar serie 910394 como 'mercancias al mayoreo' cuando metodologicamente en el INPC son precios al consumidor (estimado)",3
+D12,2026-11-12,Desarrollo,Verificacion de series,Datos,"Omitir bandera de mes incompleto para noviembre de 2026 en tipo de cambio mensual (solo contaba con 4 dias cotizados hasta el dia 6) (estimado)",3
+D13,2026-11-12,Desarrollo,Verificacion de Oro,Diseno,"Falta de bandera explicita tc_disponible en matriz_mensual_macro para documentar que el tipo de cambio entre 1982-01 y 1991-10 esta intencionalmente vacio (NaN) y no fue imputado (estimado)",3
+D14,2026-11-12,E0 Validacion,Integracion E1,Datos,"El validador de E0 contaba como presentes 156 meses de SP74625 (1969-1981) con valor 'N/E', por lo que reportaba '0 faltantes'; en E1 la validacion numerica estricta los segrego a cuarentena (936 = 156 meses x 6 capturas) (estimado)",3
+D15,2026-11-12,Diseno,Revision de entrega,Documentacion,"Atribuir a la entrevista los meses de receso escolar (julio-agosto, diciembre-enero y abril) cuando la entrevista solo menciona vacaciones escolares y mayor venta en verano; se reclasifico como supuesto aproximado del dominio (estimado)",3

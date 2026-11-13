@@ -1,9 +1,18 @@
 fecha,fase,actividad,inicio,fin,minutos_netos,interrupciones,comentarios
-2026-11-08,Planeacion,Estructurar la tarea E0 en fases y entregables,,,,,
-2026-11-08,Planeacion,Definir que se delega a Antigravity y que se hace a mano,,,,,
-2026-11-08,Entrevista,Preparar las 5 preguntas y entrevistar a la vendedora (confirma la fecha real),,,,,
-2026-11-08,Redaccion,Ordenar las respuestas y proponer preguntas analiticas E1-E3,,,,,
-2026-11-08,Diseno,Revisar el plan inicial de Antigravity (prompt 0) y pedir ajustes,,,,,
-2026-11-08,Desarrollo,Ejecutar extractor y descargar series historicas (prompt 3),,,,,
-2026-11-08,Verificacion,Revisar series y metadatos; descartar 628xxx y 7xxxxx,,,,,
-2026-11-08,Desarrollo,Ajustar seleccion final de series y agregar 910395,,,,,
+2026-11-09,Planeacion,"Estructurar tareas de E1: fases de integracion, limpieza, calidad Pandera y capa Oro",,,20,,estimado (reconstruido)
+2026-11-09,Diseno,"Disenar arquitectura modular en src/pipeline/ y politica de deduplicacion temporal",,,25,,estimado (reconstruido)
+2026-11-09,Desarrollo,"Implementar integracion.py: parseo de 12 JSONs crudos y resolucion de duplicados",,,75,,estimado (reconstruido); fase mas larga
+2026-11-12,Desarrollo,"Implementar limpieza.py: diagnostico de calendario y simulacion de imputacion (5% y 10%)",,,25,,estimado (reconstruido)
+2026-11-12,Desarrollo,"Implementar deteccion de atipicos sobre variaciones porcentuales (IQR, MAD, Isolation Forest)",,,25,,estimado (reconstruido)
+2026-11-12,Desarrollo,"Implementar calidad.py: esquemas Pandera lazy, desvio a cuarentena y conciliacion contable",,,30,,estimado (reconstruido)
+2026-11-12,Desarrollo,"Implementar transformacion.py: normalizaciones reversibles, jerarquias y calculo VIF",,,25,,estimado (reconstruido)
+2026-11-12,Desarrollo,"Implementar reduccion.py: generacion de matriz_mensual_macro y comparativa_sectores en Oro",,,20,,estimado (reconstruido)
+2026-11-12,Verificacion,"Crear suite de pruebas pytest con 4 casos sinteticos invalidos y ejecutar tests/",,,20,,estimado (reconstruido)
+2026-11-12,Desarrollo,"Configurar workflow CI .github/workflows/procesar.yml y actualizar requirements.txt",,,20,,estimado (reconstruido)
+2026-11-12,Documentacion,"Elaborar y ejecutar notebook narrativo docs/E1/limpieza.ipynb con nbconvert",,,20,,estimado (reconstruido)
+2026-11-12,Documentacion,"Redactar ENTREGA.md, reporte_calidad.md, diccionario_datos.md y borrador relatoria-E1.md",,,25,,estimado (reconstruido)
+2026-11-12,Verificacion,"Ajustar precision conceptual en documentos (precios al consumidor, N/E estructural y banderas)",,,15,,estimado (reconstruido)
+2026-11-12,Planeacion,"Redactar el prompt de E1 para Antigravity",,,20,,estimado (reconstruido)
+2026-11-12,Verificacion,"Revisar reportes del pipeline y detectar que el 936 eran 156 meses x 6 capturas",,,25,,estimado (reconstruido)
+2026-11-12,Verificacion,"Ejecutar pytest, run.py y procesar.yml en Actions",,,15,,estimado (reconstruido)
+2026-11-12,Documentacion,"Redactar relatoria-E1.md (secciones A, B y C)",,,15,,estimado (reconstruido)

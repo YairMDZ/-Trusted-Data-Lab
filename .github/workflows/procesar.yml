@@ -1,0 +1,61 @@
+name: Procesamiento Automático Plata y Oro
+
+on:
+  schedule:
+    # Ejecución semanal programada: Todos los lunes a las 13:00 UTC (1 hora posterior a captura.yml)
+    - cron: '0 13 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: procesar-plata-oro
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  procesar:
+    name: Pipeline ETL Plata, Oro y Control de Calidad
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar Pipeline ETL End-to-End
+        run: |
+          python src/pipeline/run.py
+
+      - name: Ejecutar Batería de Pruebas Unitarias
+        run: |
+          pytest -v tests/
+
+      - name: Commit y Push de Capas Plata, Oro y Cuarentena
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Agregar capas procesadas, cuarentena y reportes generados
+          git add datos/plata/ datos/oro/ datos/cuarentena/ docs/E1/
+
+          # Comprobar si hay cambios staged para commitear
+          if ! git diff --staged --quiet; then
+            FECHA_HOY=$(date -u +'%Y-%m-%d')
+            git commit -m "transformación automática plata/oro ${FECHA_HOY}"
+            git push origin main
+          else
+            echo "No hay cambios nuevos en capas Plata, Oro o Cuarentena. No se requiere commit."
+          fi
