@@ -1,6 +1,6 @@
 # Reporte de Control de Calidad de Datos (Entrega E1)
 
-**Fecha de Auditoría:** 2026-11-13 20:24:43 UTC  
+**Fecha de Auditoría:** 2026-11-16 22:47:10 UTC  
 **Proyecto:** Observatorio de Datos - Puestos Escolares de Colima  
 **Motor de Validación:** Pandera (Lazy Evaluation) & Pipeline Estadístico  
 
@@ -12,9 +12,9 @@ Para garantizar que ningún registro sea eliminado en silencio, el pipeline audi
 
 | Métrica | Conteo de Filas | Porcentaje | Destino / Estado |
 | :--- | :---: | :---: | :--- |
-| **Total de Registros Crudos de Entrada** | **69,249** | **100.00%** | Ingesta desde `datos/bronce/` |
-| **Registros Aprobados en Capa Plata** | **11,635** | **16.80%** | Destino `datos/plata/` |
-| **Registros Rechazados en Cuarentena** | **57,614** | **83.20%** | Destino `datos/cuarentena/` |
+| **Total de Registros Crudos de Entrada** | **92,847** | **100.00%** | Ingesta desde `datos/bronce/` |
+| **Registros Aprobados en Capa Plata** | **11,645** | **12.54%** | Destino `datos/plata/` |
+| **Registros Rechazados en Cuarentena** | **81,202** | **87.46%** | Destino `datos/cuarentena/` |
 | **Discrepancia Contable** | **0** | **0.00%** | Conciliación exacta $\checkmark$ |
 
 $$\text{Total Entrada } (69,249) = \text{Plata } (11,635) + \text{Cuarentena } (57,614)$$
@@ -61,12 +61,12 @@ Evaluación estricta de tipos de datos, valores numéricos positivos, rangos pla
 
 | Clave | Nombre Literal Oficial | Fuente | Observaciones | Nulos | Meses Faltantes | Periodo Inicio | Periodo Fin |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `910392` | Índice general | INEGI | 693 | 0 | 0 | 1969-01-01 | 2026-09-01 |
-| `910394` | Mercancías | INEGI | 537 | 0 | 0 | 1982-01-01 | 2026-09-01 |
-| `910395` | Servicios | INEGI | 537 | 0 | 0 | 1982-01-01 | 2026-09-01 |
-| `910397` | Agropecuarios | INEGI | 537 | 0 | 0 | 1982-01-01 | 2026-09-01 |
-| `SF43718` | Tipo de cambio FIX | Banxico | 8,794 | 0 | 0 | 1991-11-12 | 2026-11-06 |
-| `SP74625` | Subíndice subyacente del INPC | Banxico | 537 | 0 | 0 | 1982-01-01 | 2026-09-01 |
+| `910392` | Índice general | INEGI | 694 | 0 | 0 | 1969-01-01 | 2026-10-01 |
+| `910394` | Mercancías | INEGI | 538 | 0 | 0 | 1982-01-01 | 2026-10-01 |
+| `910395` | Servicios | INEGI | 538 | 0 | 0 | 1982-01-01 | 2026-10-01 |
+| `910397` | Agropecuarios | INEGI | 538 | 0 | 0 | 1982-01-01 | 2026-10-01 |
+| `SF43718` | Tipo de cambio FIX | Banxico | 8,799 | 0 | 0 | 1991-11-12 | 2026-11-13 |
+| `SP74625` | Subíndice subyacente del INPC | Banxico | 538 | 0 | 0 | 1982-01-01 | 2026-10-01 |
 
 ---
 
@@ -76,12 +76,12 @@ Los niveles de precios no son estacionarios; por tanto, los atípicos se calcula
 
 | Clave | Nombre Literal | IQR (1.5x) | Z-score MAD (>3.0) | Isolation Forest | Decisión Técnica |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| `910392` | Índice general | 86 | 100 | 21 | **Conservar** (Eventos macroeconómicos reales documentados) |
+| `910392` | Índice general | 86 | 101 | 21 | **Conservar** (Eventos macroeconómicos reales documentados) |
 | `910394` | Mercancías | 85 | 109 | 17 | **Conservar** (Eventos macroeconómicos reales documentados) |
-| `910395` | Servicios | 60 | 129 | 17 | **Conservar** (Eventos macroeconómicos reales documentados) |
+| `910395` | Servicios | 60 | 130 | 17 | **Conservar** (Eventos macroeconómicos reales documentados) |
 | `910397` | Agropecuarios | 23 | 22 | 17 | **Conservar** (Eventos macroeconómicos reales documentados) |
 | `SF43718` | Tipo de cambio FIX | 555 | 420 | 264 | **Conservar** (Eventos macroeconómicos reales documentados) |
-| `SP74625` | Subíndice subyacente del INPC | 78 | 121 | 17 | **Conservar** (Eventos macroeconómicos reales documentados) |
+| `SP74625` | Subíndice subyacente del INPC | 78 | 121 | 16 | **Conservar** (Eventos macroeconómicos reales documentados) |
 
 > **Justificación de Conservación:**  
 
