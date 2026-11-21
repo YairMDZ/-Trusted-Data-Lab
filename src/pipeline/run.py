@@ -28,6 +28,9 @@ from src.pipeline.limpieza import (
 )
 from src.pipeline.transformacion import transformar_y_normalizar
 from src.pipeline.reduccion import construir_capa_oro
+from src.pipeline.linaje import construir_linaje_completo, verificar_muestra_linaje
+from src.denue.plata_geo import construir_plata_geoespacial
+from src.denue.oro_geo import construir_oro_geoespacial
 
 logging.basicConfig(
     level=logging.INFO,
@@ -124,29 +127,94 @@ def ejecutar_pipeline() -> int:
     )
 
     # --------------------------------------------------------------------------
+    # FASE E2-GEO: Capa Geoespacial (DENUE + Marco Geoestadístico)
+    # --------------------------------------------------------------------------
+    bronze_denue_dir = bronze_dir / "denue"
+    bronze_mg_dir = bronze_dir / "marco_geoestadistico"
+    resumen_geo = None
+    df_oro_mun = df_oro_ageb = df_oro_loc = None
+    if bronze_denue_dir.exists() and list(bronze_denue_dir.glob("denue_colima_raw_*.zip")):
+        logger.info("\n--- [FASE E2-GEO] CAPA PLATA Y ORO GEOESPACIAL (DENUE + MARCO) ---")
+        gdf_plata_geo, gdf_marco_geo, _, resumen_geo = construir_plata_geoespacial(
+            bronze_denue_dir=bronze_denue_dir,
+            bronze_mg_dir=bronze_mg_dir,
+            plata_dir=plata_dir,
+            cuarentena_dir=cuarentena_dir,
+        )
+        df_oro_mun, df_oro_ageb, df_oro_loc = construir_oro_geoespacial(
+            gdf_plata=gdf_plata_geo,
+            gdf_marco=gdf_marco_geo,
+            oro_dir=oro_dir,
+            figuras_dir=BASE_DIR / "docs" / "E2" / "figuras",
+            diccionario_path=BASE_DIR / "docs" / "E2" / "diccionario_geoespacial.md",
+        )
+
+    # --------------------------------------------------------------------------
+    # FASE E2-LINAJE: Trazabilidad End-to-End de Plata y Oro hasta Bronce
+    # --------------------------------------------------------------------------
+    logger.info("\n--- [FASE E2-LINAJE] CONSTRUCCIÓN Y VERIFICACIÓN DE LINAJE ---")
+    linaje_dir = BASE_DIR / "datos" / "linaje"
+    df_manifiesto, df_linaje, run_id = construir_linaje_completo(
+        bronze_dir=bronze_dir,
+        plata_dir=plata_dir,
+        oro_dir=oro_dir,
+        linaje_dir=linaje_dir,
+        docs_linaje_path=BASE_DIR / "docs" / "E2" / "linaje.md",
+    )
+    verif_linaje = verificar_muestra_linaje(
+        n_por_tabla=4,
+        seed=42,
+        bronze_dir=bronze_dir,
+        oro_dir=oro_dir,
+        linaje_dir=linaje_dir,
+    )
+    if verif_linaje["fallidos"] > 0:
+        raise RuntimeError(f"FALLA DE AUDITORÍA DE LINAJE: {verif_linaje['fallidos']} registros no coinciden con Bronce.")
+
+    # Recargar tablas Oro de E1 enriquecidas con columnas de linaje para métricas de consola
+    matriz_macro = pd.read_parquet(oro_dir / "matriz_mensual_macro.parquet")
+    comparativa_sectores = pd.read_parquet(oro_dir / "comparativa_sectores.parquet")
+
+    # --------------------------------------------------------------------------
     # RESUMEN EJECUTIVO EN CONSOLA
     # --------------------------------------------------------------------------
     print("\n" + "=" * 78)
-    print("RESUMEN EJECUTIVO DEL PIPELINE E1 (CIERRE EXITOSO)")
+    print("RESUMEN EJECUTIVO DEL PIPELINE E1 + E2 (CIERRE EXITOSO)")
     print("=" * 78)
-    print(f"1. CONCILIACIÓN MATEMÁTICA DE REGISTROS:")
+    print(f"1. CONCILIACIÓN MATEMÁTICA DE REGISTROS (SERIES E1):")
     print(f"   - Filas de Entrada Crudas:    {total_entrada:8,}")
     print(f"   - Filas Aprobadas en Plata:   {len(df_plata_final):8,}  (100% de datos analíticos limpios)")
     print(f"   - Filas en Cuarentena Total:  {len(df_cuarentena_total):8,}  (Aisladas con causa auditable)")
     print(f"   - Conciliación Exacta:        {total_entrada == (len(df_plata_final) + len(df_cuarentena_total))} (Discrepancia: 0)")
+    if resumen_geo is not None:
+        print(f"   [GEOESPACIAL DENUE COLIMA]:")
+        print(f"   - Filas de Entrada Crudas:    {resumen_geo['total_entrada']:8,}")
+        print(f"   - Filas Aprobadas en Plata:   {resumen_geo['total_plata']:8,}  (CRS {resumen_geo['crs_almacenamiento']})")
+        print(f"   - Filas en Cuarentena DENUE:  {resumen_geo['total_cuarentena']:8,}  (Violaciones calidad real: {resumen_geo['violaciones_calidad_reales']})")
+        print(f"   - Conciliación Exacta:        {resumen_geo['total_entrada'] == (resumen_geo['total_plata'] + resumen_geo['total_cuarentena'])} (Discrepancia: 0)")
     print("-" * 78)
     print("2. TABLA DE VERIFICACIÓN DE SERIES (CUMPLIMIENTO >= 36 PERIODOS):")
     print(df_verif_series[["cve_serie", "nombre_literal", "frecuencia", "periodos", "cumple_minimo_36", "primera_fecha", "ultima_fecha", "meses_faltantes"]].to_string(index=False))
     print("-" * 78)
-    print("3. DATASETS GENERADOS EN CAPA ORO:")
-    print(f"   - matriz_mensual_macro:  {matriz_macro.shape[0]} filas x {matriz_macro.shape[1]} columnas ({matriz_macro['fecha'].min().strftime('%Y-%m')} a {matriz_macro['fecha'].max().strftime('%Y-%m')})")
-    print(f"   - comparativa_sectores: {comparativa_sectores.shape[0]} filas x {comparativa_sectores.shape[1]} columnas")
+    print("3. DATASETS GENERADOS EN CAPA ORO (CON COLUMNAS DE LINAJE):")
+    print(f"   - matriz_mensual_macro:                  {matriz_macro.shape[0]} filas x {matriz_macro.shape[1]} columnas ({matriz_macro['fecha'].min().strftime('%Y-%m')} a {matriz_macro['fecha'].max().strftime('%Y-%m')})")
+    print(f"   - comparativa_sectores:                  {comparativa_sectores.shape[0]} filas x {comparativa_sectores.shape[1]} columnas")
+    if df_oro_mun is not None:
+        print(f"   - densidad_comercial_escolar_municipios: {len(df_oro_mun)} filas")
+        print(f"   - densidad_comercial_escolar_localidad:  {len(df_oro_loc)} filas")
+        print(f"   - densidad_comercial_escolar_ageb:       {len(df_oro_ageb)} filas")
     print("-" * 78)
-    print("4. MULTICOLINEALIDAD ENTRE FACTORES EXPLICATIVOS (VIF):")
+    print("4. LINAJE Y TRAZABILIDAD END-TO-END:")
+    print(f"   - Run ID:                 {run_id}")
+    print(f"   - Archivos en Manifiesto: {len(df_manifiesto)}")
+    print(f"   - Registros Rastreados:   {len(df_linaje):,} (Plata={(df_linaje['capa']=='plata').sum():,}, Oro={(df_linaje['capa']=='oro').sum():,})")
+    print(f"   - Verificación Muestra:   {verif_linaje['exitosos']}/{verif_linaje['total_verificados']} ({verif_linaje['tasa_exito_pct']}%)")
+    print("-" * 78)
+    print("5. MULTICOLINEALIDAD ENTRE FACTORES EXPLICATIVOS (VIF):")
     print(df_vif.to_string(index=False))
     print("=" * 78 + "\n")
 
-    logger.info("Pipeline E1 completado de forma satisfactoria sin errores.")
+    logger.info("Pipeline E1 + E2 completado de forma satisfactoria sin errores.")
     return 0
 
 

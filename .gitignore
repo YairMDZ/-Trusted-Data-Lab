@@ -28,3 +28,7 @@ Desktop.ini
 
 # IMPORTANTE: datos/bronce/ NO se ignora según especificación del observatorio
 !datos/bronce/
+
+# Archivos pesados binarios del DENUE (privacidad y tamaño; preservados vía manifiesto SHA-256)
+datos/bronce/denue/*.zip
+

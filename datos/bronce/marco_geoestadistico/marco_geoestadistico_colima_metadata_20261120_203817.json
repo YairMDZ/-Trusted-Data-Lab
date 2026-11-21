@@ -1,0 +1,21 @@
+{
+  "fuente": "INEGI — Marco Geoestadístico (Servicio Web GAIA wscatgeo)",
+  "version_servicio": "wscatgeo v2 (GeoJSON oficial)",
+  "metadatos_origen_inegi": {
+    "Fuente_informacion_vectorial": "INEGI. Marco Geoestadístico, diciembre de 2025",
+    "Fuente_informacion_estadistica": "INEGI. Censo de Población y Vivienda, 2020"
+  },
+  "crs_origen_declarado": "EPSG:6365 (ITRF2008 geográfico, equivalente operacional a WGS84 EPSG:4326)",
+  "fecha_ingesta_utc": "2026-11-20T20:38:57.923324+00:00",
+  "archivo_datos": "marco_geoestadistico_colima_municipios_20261120_203817.geojson",
+  "tamano_bytes": 517085,
+  "sha256": "a345fd583e0b9c35ecc84c1494c40b5999338c8a33b134c9ad28e4e1d2635571",
+  "url_consulta": "https://gaia.inegi.org.mx/wscatgeo/v2/geo/mgem/06",
+  "parametros": {
+    "entidad": "06",
+    "nivel": "municipal (mgem)"
+  },
+  "total_poligonos_municipales": 10,
+  "user_agent": "ObservatorioEscolarColima/2.0 (Contacto: investigacion-escolar@colima.edu.mx)",
+  "licencia": "Términos de Libre Uso de la Información del INEGI (https://www.inegi.org.mx/inegi/terminos.html)"
+}

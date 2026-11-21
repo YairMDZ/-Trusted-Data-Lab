@@ -39,23 +39,23 @@ jobs:
         run: |
           python src/pipeline/run.py
 
-      - name: Ejecutar Batería de Pruebas Unitarias
+      - name: Ejecutar Batería de Pruebas Unitarias (E1 + Geoespacial + Linaje)
         run: |
           pytest -v tests/
 
-      - name: Commit y Push de Capas Plata, Oro y Cuarentena
+      - name: Commit y Push de Capas Plata, Oro, Cuarentena y Linaje
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Agregar capas procesadas, cuarentena y reportes generados
-          git add datos/plata/ datos/oro/ datos/cuarentena/ docs/E1/
+          # Agregar capas procesadas, cuarentena, linaje y reportes generados
+          git add datos/plata/ datos/oro/ datos/cuarentena/ datos/linaje/ docs/E1/ docs/E2/figuras/ docs/E2/diccionario_geoespacial.md docs/E2/linaje.md
 
           # Comprobar si hay cambios staged para commitear
           if ! git diff --staged --quiet; then
             FECHA_HOY=$(date -u +'%Y-%m-%d')
-            git commit -m "transformación automática plata/oro ${FECHA_HOY}"
+            git commit -m "transformación automática plata/oro/linaje ${FECHA_HOY}"
             git push origin main
           else
-            echo "No hay cambios nuevos en capas Plata, Oro o Cuarentena. No se requiere commit."
+            echo "No hay cambios nuevos en capas Plata, Oro, Cuarentena o Linaje. No se requiere commit."
           fi
