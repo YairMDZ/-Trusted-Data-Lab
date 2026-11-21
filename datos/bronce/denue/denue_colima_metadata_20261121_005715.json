@@ -1,0 +1,122 @@
+{
+  "fuente": "INEGI — Directorio Estadístico Nacional de Unidades Económicas (DENUE)",
+  "version_servicio": "DENUE Descarga Masiva Estatal CSV (complementaria a API REST v1)",
+  "fecha_ingesta_utc": "2026-11-21T00:57:20.208389+00:00",
+  "fecha_corte_denue": "05/2026",
+  "nueva_version_inegi": false,
+  "archivo_datos": "denue_colima_raw_20261121_005715.zip",
+  "tamano_bytes": 3788726,
+  "sha256": "948e292e567ce16a8b7485f15846ddaaf9c9cda6fda9be07334bb6afc5480af6",
+  "url_descarga_efectiva": "https://www.inegi.org.mx/contenidos/masiva/denue/denue_06_csv.zip",
+  "variable_token_detectada": "INEGI_API_TOKEN",
+  "sonda_api_rest_v1": {
+    "url_consulta_enmascarada": "https://www.inegi.org.mx/app/api/denue/v1/consulta/Cuantificar/461160/06/0/***MASKED***",
+    "estado": "no_autorizado_o_error_servicio",
+    "http_status": 200,
+    "detalle": "\"\\\"No autorizado. Utilice una clave válida.\\\"\""
+  },
+  "parametros": {
+    "entidad": "06",
+    "entidad_nombre": "Colima",
+    "municipios": {
+      "001": "Armería",
+      "002": "Colima",
+      "003": "Comala",
+      "004": "Coquimatlán",
+      "005": "Cuauhtémoc",
+      "006": "Ixtlahuacán",
+      "007": "Manzanillo",
+      "008": "Minatitlán",
+      "009": "Tecomán",
+      "010": "Villa de Álvarez"
+    },
+    "clases_scian_estudio": {
+      "611111": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación preescolar del sector privado"
+      },
+      "611112": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación preescolar del sector público"
+      },
+      "611121": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación primaria del sector privado"
+      },
+      "611122": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación primaria del sector público"
+      },
+      "611131": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación secundaria general del sector privado"
+      },
+      "611132": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación secundaria general del sector público"
+      },
+      "611141": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación secundaria técnica del sector privado"
+      },
+      "611142": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas de educación secundaria técnica del sector público"
+      },
+      "611171": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas del sector privado que combinan diversos niveles de educación"
+      },
+      "611172": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas del sector público que combinan diversos niveles de educación"
+      },
+      "611181": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas del sector privado de educación para necesidades especiales"
+      },
+      "611182": {
+        "categoria": "escuela_basica",
+        "nombre_literal": "Escuelas del sector público de educación para necesidades especiales"
+      },
+      "461110": {
+        "categoria": "abarrotes",
+        "nombre_literal": "Comercio al por menor en tiendas de abarrotes, ultramarinos y misceláneas"
+      },
+      "461160": {
+        "categoria": "dulces",
+        "nombre_literal": "Comercio al por menor de dulces y materias primas para repostería"
+      },
+      "461170": {
+        "categoria": "helados_paletas",
+        "nombre_literal": "Comercio al por menor de paletas de hielo y helados"
+      }
+    }
+  },
+  "user_agent": "ObservatorioEscolarColima/2.0 (Contacto: investigacion-escolar@colima.edu.mx)",
+  "licencia": "Términos de Libre Uso de la Información del INEGI (https://www.inegi.org.mx/inegi/terminos.html)",
+  "resumen_integridad": {
+    "archivo_csv_interno": "conjunto_de_datos/denue_inegi_06_.csv",
+    "fecha_corte": "05/2026",
+    "total_registros_crudos_entidad": 42073,
+    "total_registros_clases_estudio": 4504,
+    "conteo_por_categoria": {
+      "abarrotes": 3510,
+      "dulces": 128,
+      "escuela_basica": 748,
+      "helados_paletas": 118
+    },
+    "conteo_por_municipio": {
+      "001 - Armería": 237,
+      "002 - Colima": 955,
+      "003 - Comala": 120,
+      "004 - Coquimatlán": 163,
+      "005 - Cuauhtémoc": 197,
+      "006 - Ixtlahuacán": 48,
+      "007 - Manzanillo": 1007,
+      "008 - Minatitlán": 65,
+      "009 - Tecomán": 977,
+      "010 - Villa de Álvarez": 735
+    }
+  }
+}
