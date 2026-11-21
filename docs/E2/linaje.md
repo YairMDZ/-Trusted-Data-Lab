@@ -72,7 +72,7 @@ Además, `datos/linaje/tabla_linaje.parquet` almacena la columna `ids_origen_jso
 ### Ejemplo 1 — Fila agregada multivariada en `matriz_mensual_macro` (E1)
 * **Consulta:** `trazar("oro:matriz_mensual_macro:2026-09-01")`
 * **Valores en Capa Oro:** `inpc_mercancias = 152.518196161`, `tipo_cambio_fix_promedio = 17.264019`
-* **Fuente:** `Banxico+INEGI` | **Run ID:** `run_20261121_004546_95e121ac`
+* **Fuente:** `Banxico+INEGI` | **Run ID:** `run_20261121_005236_2f8c6cc3`
 * **Registros de origen (`n_registros_origen`):** **26** (5 observaciones mensuales de INPC + 21 cotizaciones diarias hábiles de `SF43718` en septiembre de 2026)
 * **Rango de fechas de origen:** `2026-09-01` a `2026-09-30`
 * **Archivos crudos en Bronce:**

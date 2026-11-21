@@ -1,6 +1,6 @@
 # Reporte de Control de Calidad de Datos (Entrega E1)
 
-**Fecha de Auditoría:** 2026-11-21 00:45:37 UTC  
+**Fecha de Auditoría:** 2026-11-21 00:52:28 UTC  
 **Proyecto:** Observatorio de Datos - Puestos Escolares de Colima  
 **Motor de Validación:** Pandera (Lazy Evaluation) & Pipeline Estadístico  
 
